@@ -27,7 +27,8 @@ class GithubClient:
          return 'https://api.github.com/users/' + username
 
     def headers(self):
-         return  {'Authorization' : "token " + os.environ["GITHUB_TOKEN"], "Accept": "application/vnd.github.v3+json"}
+        print(os.environ["GITHUB_TOKEN"])
+        return  {'Authorization' : "token " + os.environ["GITHUB_TOKEN"], "Accept": "application/vnd.github.v3+json"}
 
 
 

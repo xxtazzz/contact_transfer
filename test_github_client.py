@@ -7,8 +7,10 @@ Created on Wed Apr 28 20:52:28 2021
 
 import unittest
 import json
+import os
 from unittest.mock import patch
 from github_client.github_client import GithubClient
+
 
 class TestResponse(object):
     def __init__(self, status_code):
@@ -25,15 +27,15 @@ class TestCases(unittest.TestCase):
 
     def test_get_request(self):
         with patch('github_client.github_client.requests.get') as mock_requests:
-            with patch('github_client.github_client.os.environ', return_value = 'zzz') as mock_environ:
+            with patch.dict(os.environ, {"GITHUB_TOKEN": 'secret_token'}):
                 self.github_client.get_compatible_user_data("xxtazzz")
                 mock_requests.assert_called_with(
                     'https://api.github.com/users/xxtazzz',
                     headers={
-                        'Authorization': 'zzz',
+                        'Authorization': 'token secret_token',
                         'Accept': 'application/vnd.github.v3+json'
                         }
-            )
+                )
 
     def test_get_compatible_user_data(self):
         with patch('github_client.github_client.requests.get', return_value = TestResponse(200)):

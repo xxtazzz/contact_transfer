@@ -53,32 +53,35 @@ class TestCases(unittest.TestCase):
 
     def test_find_contact_request(self):
         with patch('freshdesk_client.freshdesk_client.requests.get') as mock_requests:
-            self.freshdesk_client.find_contact('quicktest', 'octocat@github.com')
-            mock_requests.assert_called_with(
-                'https://quicktest.freshdesk.com/api/v2/search/contacts?query="email:\'octocat@github.com\'"',
-                 auth = (os.environ["FRESHDESK_TOKEN"], "x"),
-                 headers = {"Content-Type" : "application/json"},
-            )
+            with patch.dict(os.environ, {"FRESHDESK_TOKEN": 'secret_token'}):
+                self.freshdesk_client.find_contact('quicktest', 'octocat@github.com')
+                mock_requests.assert_called_with(
+                    'https://quicktest.freshdesk.com/api/v2/search/contacts?query="email:\'octocat@github.com\'"',
+                     auth = ('secret_token', 'x'),
+                     headers = {"Content-Type" : "application/json"},
+                )
 
     def test_update_contact_request(self):
         with patch('freshdesk_client.freshdesk_client.requests.put') as mock_requests:
-            self.freshdesk_client.update_contact('quicktest', '123', self.contact_info)
-            mock_requests.assert_called_with(
-                 "https://quicktest.freshdesk.com/api/v2/contacts/123",
-                 auth = (os.environ["FRESHDESK_TOKEN"], "x"),
-                 data = json.dumps(self.contact_info),
-                 headers = {"Content-Type" : "application/json"},
-            )
+            with patch.dict(os.environ, {"FRESHDESK_TOKEN": 'secret_token'}):
+                self.freshdesk_client.update_contact('quicktest', '123', self.contact_info)
+                mock_requests.assert_called_with(
+                     "https://quicktest.freshdesk.com/api/v2/contacts/123",
+                     auth = ('secret_token', 'x'),
+                     data = json.dumps(self.contact_info),
+                     headers = {"Content-Type" : "application/json"},
+                )
 
     def test_create_contact_request(self):
         with patch('freshdesk_client.freshdesk_client.requests.post') as mock_requests:
-            self.freshdesk_client.create_contact('quicktest', self.contact_info)
-            mock_requests.assert_called_with(
-                 "https://quicktest.freshdesk.com/api/v2/contacts/",
-                 auth = (os.environ["FRESHDESK_TOKEN"], "x"),
-                 data = json.dumps(self.contact_info),
-                 headers = {"Content-Type" : "application/json"},
-            )
+            with patch.dict(os.environ, {"FRESHDESK_TOKEN": 'secret_token'}):
+                self.freshdesk_client.create_contact('quicktest', self.contact_info)
+                mock_requests.assert_called_with(
+                     "https://quicktest.freshdesk.com/api/v2/contacts/",
+                     auth = ('secret_token', 'x'),
+                     data = json.dumps(self.contact_info),
+                     headers = {"Content-Type" : "application/json"},
+                )
 
 
 if __name__ == "__main__":
