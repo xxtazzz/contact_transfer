@@ -25,13 +25,14 @@ class TestCases(unittest.TestCase):
 
     def test_get_request(self):
         with patch('github_client.github_client.requests.get') as mock_requests:
-            self.github_client.get_compatible_user_data("xxtazzz")
-            mock_requests.assert_called_with(
-                'https://api.github.com/users/xxtazzz',
-                headers={
-                    'Authorization': 'token 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',
-                    'Accept': 'application/vnd.github.v3+json'
-                }
+            with patch('github_client.github_client.os.environ', return_value = 'zzz') as mock_environ:
+                self.github_client.get_compatible_user_data("xxtazzz")
+                mock_requests.assert_called_with(
+                    'https://api.github.com/users/xxtazzz',
+                    headers={
+                        'Authorization': 'zzz',
+                        'Accept': 'application/vnd.github.v3+json'
+                        }
             )
 
     def test_get_compatible_user_data(self):
