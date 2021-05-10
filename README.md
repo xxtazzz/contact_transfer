@@ -19,8 +19,15 @@ In order to work properly program needs GitHub and freshdesk authorization token
 
 Usage:
 
-Tha program can be started from command prompt with next parameters:
+Tha program can be started from command prompt in the project folder with next parameters:
 	'-g' - GitHub username;
 	'-f' - freshdesk subdomain;
 Both parameters are required.
-The unit tests files are placed in the main program folder. They can be started without parameters. The tests are separated in different files for each module.
+
+Example: python contact_transfer.py -g github_username -f freshdesk_subdomain
+
+The unit tests files are placed in the main program folder. They can be started without parameters from the command prompt in the project folder. 
+
+Example: python test_contact_transfer.py
+
+The tests are separated in different files for each module.
